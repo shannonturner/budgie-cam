@@ -42,7 +42,7 @@ class BudgieCamView(TemplateView):
             if BUDGIE_PASSPHRASE in text_message:
                 try:
                     budgie_filename = '{0}.jpg'.format(''.join([str(x) for x in time.localtime()[:6]]))
-                    subprocess.call(['raspistill', '-t', '500', '-o', "{0}{1}".format(BUDGIE_FILE_PATH, budgie_filename)])
+                    subprocess.call(['raspistill', '-t', '5000', '-o', "{0}{1}".format(BUDGIE_FILE_PATH, budgie_filename)])
                 except Exception, e:
                     print "[ERROR] Call to raspistill failed; could not take photo ({0}: {1}{2})".format(e, BUDGIE_FILE_PATH, budgie_filename)
                     context['response'] = '500'
