@@ -42,9 +42,28 @@ class BudgieCamView(TemplateView):
             if BUDGIE_PASSPHRASE in text_message.lower():
                 if 'video' in text_message.lower():
                     try:
-                        budgie_filename = '{0}.h264'.format(''.join([str(x) for x in time.localtime()[:6]]))
+                        budgie_filename = '{0}.h264'.format(''.join(['{0:02d}'.format(x) for x in time.localtime()[:6]]))
                         # raspivid -o video.h264 -t 10000
                         subprocess.call(['raspivid', '-t', '30000','-o', '{0}{1}'.format(BUDGIE_FILE_PATH, budgie_filename)])
+                        # Has this video been converted yet?
+
+                        try:
+                            print "\t Converting {0} to mp4".format(budgie_filename)
+                            subprocess.call([
+                                'ffmpeg',
+                                '-i',
+                                '{0}{1}'.format(BUDGIE_FILE_PATH, budgie_filename),
+                                "{0}{1}.mp4".format(BUDGIE_FILE_PATH, budgie_filename[:-5])
+                            ])
+
+                        except Exception:
+                            print "[ERROR] Failed to convert {0} to mp4".format(budgie_filename)
+                        else:
+                            subprocess.call([
+                                'rm',
+                                '{0}{1}'.format(BUDGIE_FILE_PATH, budgie_filename)
+                            ])
+                            budgie_filename = "{0}.mp4".format(budgie_filename[:-5])
                     except Exception, e:
                         print "[ERROR] Call to raspivid failed; could not take video ({0}: {1}{2})".format(e, BUDGIE_FILE_PATH, budgie_filename)
                     else:
