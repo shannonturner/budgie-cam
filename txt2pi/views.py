@@ -77,7 +77,7 @@ class BudgieCamView(TemplateView):
                         context['response'] = '200'
                 else:
                     try:
-                        budgie_filename = '{0}.jpg'.format(''.join([str(x) for x in time.localtime()[:6]]))
+                        budgie_filename = '{0}.jpg'.format(''.join(['{0:02d}'.format(x) for x in time.localtime()[:6]]))
                         subprocess.call(['raspistill', '--nopreview', '-t', '5000', '-o', "{0}{1}".format(BUDGIE_FILE_PATH, budgie_filename)])
                     except Exception, e:
                         print "[ERROR] Call to raspistill failed; could not take photo ({0}: {1}{2})".format(e, BUDGIE_FILE_PATH, budgie_filename)
