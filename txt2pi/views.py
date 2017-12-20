@@ -13,12 +13,15 @@ class BudgieCamView(TemplateView):
 
     def get(self, request, **kwargs):
 
-        """ Response Code 418: I'm a teapot
+        """ This is mostly to test that the port forwarding is working correctly without having to issue a POST request. 
+
+            If a GET request goes through (and you're not just browsing from localhost) then you're good to go.
         """
 
         template = 'response.html'
         context = {
-            'response': '418'
+            'response': '''Congratulations! If you're reading this message, your port forwarding is probably configured correctly and your Django server is running. You'll be able to get pictures of your beautiful bird very soon.
+                        '''
         }
         return render(request, template, context)
 
