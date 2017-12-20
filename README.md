@@ -50,10 +50,12 @@ As heard on [Envoy Office Hacks](https://envoy.com/blog/office-hack-39/)
 
 6. Edit the budgiecam/settings.py file and change the SECRET_KEY to be a non-blank string of 50 random characters. You can generate a secret key by running this Python script:
 
-`from django.utils.crypto import get_random_string
+```python
+from django.utils.crypto import get_random_string
 
 chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
-print get_random_string(50, chars)`
+print get_random_string(50, chars)
+```
 
 7. Edit the txt2pi/twilio_credentials.py file with your ACCOUNT_SID and AUTH_TOKEN from your Twilio account. (If you don't have a Twilio account yet, you'll need to create one at: twilio.com)
 
@@ -90,18 +92,22 @@ Note: If you have a dynamic IP address, your IP address may change without warni
 For my port forwarding, I set up requests to my Raspberry Pi's address with a port of 80 to go to a destination of XXXXX. (In place of XXXXX, use any number you like)
 
 So it looks like:
+```
 Raspberry Pi
 192.168.1.xxx:80    Destination XXXXX
                     TCP Any -> XXXXX
+```
 
 This will allow my images to be found by Twilio. In place of XXXXX, use any port number you like as long as it is not in use by another service or system.
 
 Your second port forwarding will allow POST requests to go through to the Django server you will be running soon.
 
 It will look like:
+```
 Raspberry Pi
 192.168.1.xxx:YYYYY Destination YYYYY
                     TCP Any -> YYYYY
+```
 
 Again, which ports you use for XXXXX and YYYYY don't matter much as long as they are not in use by something else.
 
@@ -151,4 +157,4 @@ Save your phone number's configuration.
 
 27. Mount the camera and Pi on your cage and enjoy!
 
-28. If you're still reading this and have completed all of the steps I would love to see your beautiful bird. [https://twitter.com/svthmc](Send pictures) you've taken with your Budgie Cam to me! 
+28. If you're still reading this and have completed all of the steps I would love to see your beautiful bird. [Send pictures](https://twitter.com/svthmc) you've taken with your Budgie Cam to me! 
