@@ -1,8 +1,14 @@
 ## Budgie Cam
 
+Take beautiful pictures of your pretty bird!
+
 Send a text message -> receive a picture of your beautiful bird!
 
 ![alt text](https://github.com/shannonturner/budgie-cam/raw/master/images/beakin-that-toy.jpg "My little guy beakin' that toy")
+
+As seen on the [Twilio blog](https://www.twilio.com/blog/2016/08/shannon-turner-builds-a-pet-cam-using-django-raspberry-pi-and-twilio.html)
+
+As heard on [Envoy Office Hacks](https://envoy.com/blog/office-hack-39/)
 
 ## Repeatable instructions to get your budgie-cam up and running!
 
