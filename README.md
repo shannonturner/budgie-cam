@@ -149,11 +149,26 @@ Save your phone number's configuration.
 
 24. Send a text message from your phone that includes your BUDGIE_PASSPHRASE from Step 18. Wait about 10-15 seconds. Watch your Django's runserver output to see any logging messages. If all goes well, you should see a 200 POST request. If something went wrong, you'll get a 500 error and a clue with what you need to fix.
 
-25. REJOICE
+25. **REJOICE**
 
 26. Optional but recommended: Create a startup script so that your Budgie Cam will run automatically when you start your Raspberry Pi without any input from you.
 
-    TODO: STARTUP SCRIPT SO YOU CAN RUN HEADLESS
+Run `sudo nano /etc/rc.local` to open the file rc.local with the editor nano. If you have a preferred editor, you can use that instead.
+
+Add the following code **before** the `exit 0`:
+
+```bash
+cd /home/pi/budgie-cam/
+. /home/pi/budgie-cam/bin/activate
+/home/pi/budgie-cam/bin/python /home/pi/budgie-cam/manage.py runserver 0.0.0.0:YYYYY &
+```
+Remember to replace YYYYY with the port number you used for Django in Step 17.
+
+If your budgie-cam repository was not cloned into the /home/pi/ directory, or if you put your virtual environment somewhere else, you'll need to adjust the paths accordingly.
+
+Don't forget to include the ampersand at the end of the command, which is important because the Django server doesn't finish running -- it's always on. This ampersand allows the startup script to finish correctly.
+
+Once you have saved your script (Control + X to Exit, then Y to save, then Enter to confirm the filename) then you will want to `sudo reboot` to reboot your Pi.  From now on, Django will run automatically at startup. So if there is a power outage or your Pi gets unplugged, it won't be an issue to get it back up and running without plugging in a monitor and keyboard.
 
 27. Mount the camera and Pi on your cage and enjoy!
 
