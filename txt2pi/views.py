@@ -9,10 +9,10 @@ from twilio.rest import TwilioRestClient
 from budgie_settings import BUDGIE_PASSPHRASE, BUDGIE_FILE_PATH, BUDGIE_WEB_PATH, RASPI_IP
 from twilio_credentials import ACCOUNT_SID, AUTH_TOKEN
 
-# If your pictures come out upside down, set this to True
-FLIP_CAMERA = True
-
 class BudgieCamView(TemplateView):
+
+    # If your pictures come out upside down, set this to True
+    FLIP_CAMERA = True
 
     def get(self, request, **kwargs):
 
@@ -44,10 +44,10 @@ class BudgieCamView(TemplateView):
 
         context = {}
 
-        if FLIP_CAMERA:
-            FLIP_CAMERA = ['-vf', '-hf']
+        if self.FLIP_CAMERA:
+            self.FLIP_CAMERA = ['-vf', '-hf']
         else:
-            FLIP_CAMERA = []
+            self.FLIP_CAMERA = []
 
         if text_message:
             if BUDGIE_PASSPHRASE in text_message.lower():
@@ -55,7 +55,7 @@ class BudgieCamView(TemplateView):
                     try:
                         budgie_filename = '{0}.h264'.format(''.join(['{0:02d}'.format(x) for x in time.localtime()[:6]]))
                         # raspivid -o video.h264 -t 10000
-                        subprocess.call(['raspivid', '--nopreview', '-t', '30000','-o', '{0}{1}'.format(BUDGIE_FILE_PATH, budgie_filename)] + FLIP_CAMERA)
+                        subprocess.call(['raspivid', '--nopreview', '-t', '30000','-o', '{0}{1}'.format(BUDGIE_FILE_PATH, budgie_filename)] + self.FLIP_CAMERA)
 
                         # This would convert the h264 video to mp4 but unfortunately it doesn't run quickly enough on the Raspberry Pi
                         # Maybe later versions of the Pi would be able to handle it, but this one can't.
@@ -89,7 +89,7 @@ class BudgieCamView(TemplateView):
                 else:
                     try:
                         budgie_filename = '{0}.jpg'.format(''.join(['{0:02d}'.format(x) for x in time.localtime()[:6]]))
-                        subprocess.call(['raspistill', '--nopreview', '-t', '5000', '-o', "{0}{1}".format(BUDGIE_FILE_PATH, budgie_filename)] + FLIP_CAMERA)
+                        subprocess.call(['raspistill', '--nopreview', '-t', '5000', '-o', "{0}{1}".format(BUDGIE_FILE_PATH, budgie_filename)] + self.FLIP_CAMERA)
                     except Exception, e:
                         print "[ERROR] Call to raspistill failed; could not take photo ({0}: {1}{2})".format(e, BUDGIE_FILE_PATH, budgie_filename)
                         context['response'] = '500'
