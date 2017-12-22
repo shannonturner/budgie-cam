@@ -173,3 +173,10 @@ Once you have saved your script (Control + X to Exit, then Y to save, then Enter
 27. Mount the camera and Pi on your cage and enjoy!
 
 28. If you're still reading this and have completed all of the steps I would love to see your beautiful bird. [Send pictures](https://twitter.com/svthmc) you've taken with your Budgie Cam to me! 
+
+Other considerations
+-----
+1. If your picture comes out upside-down, change the FLIP_CAMERA variable in txt2pi/views.py to True
+2. Budgie Cam also supports videos. Just put "video" in your text message and it will take a 30 second video. Don't forget your BUDGIE_PASSPHRASE!
+3. Having pictures on your phone is nice but you may also want them on your computer. I've included a script that will back up for you, in pix/budgie_backup.py -- you will need to `pip install Pillow` and `pip install requests` for it to work, and if you are using it to back up videos it will download your videos and convert them from h264 to mp4 but this requires special software, [ffmpeg](https://www.ffmpeg.org/).
+4. If you take a lot of photos and/or videos, you may eventually run low on storage space. You may want to create a cron job to delete old photos and/or videos. Alternatively you can delete them manually by logging in to your Raspberry Pi remotely. From another computer, run `ssh pi@192.168.1.xxx` where xxx is the IP address of your Raspberry Pi.
