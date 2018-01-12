@@ -89,7 +89,7 @@ class BudgieCamView(TemplateView):
                 elif 'audio' in text_message.lower():
                     try:
                         budgie_filename = '{0}.wav'.format(''.join(['{0:02d}'.format(x) for x in time.localtime()[:6]]))
-                        subprocess.call(['arecord', '--device=hw:1,0', '--format', 'S16_LE', '--rate', '44100', '-c1', '{0}{1}'.format(BUDGIE_FILE_PATH, budgie_filename)])
+                        subprocess.call(['arecord', '-d', '15', '--device=hw:1,0', '--format', 'S16_LE', '--rate', '44100', '-c1', '{0}{1}'.format(BUDGIE_FILE_PATH, budgie_filename)])
                     except Exception, e:
                         print "[ERROR] Call to arecord failed; could not record audio. ({0}: {1}{2})".format(e, BUDGIE_FILE_PATH, budgie_filename)
                         context['response'] = '500'
