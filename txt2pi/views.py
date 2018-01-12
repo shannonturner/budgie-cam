@@ -98,7 +98,8 @@ class BudgieCamView(TemplateView):
                         client.messages.create(
                             to=requesting_phone_number,
                             from_=budgiecam_phone_number,
-                            body="{0}".format(budgie_filename)
+                            body="{0}".format(budgie_filename),
+                            media_url="{0}{1}{2}".format(RASPI_IP, BUDGIE_WEB_PATH, budgie_filename),
                         )
                         context['response'] = '200'
                 else:
