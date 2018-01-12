@@ -22,10 +22,12 @@ As heard on [Envoy Office Hacks](https://envoy.com/blog/office-hack-39/)
 * [Raspberry Pi Model B+ / Pi 2 / Pi 3 Case Lid - Yellow: $3](https://www.adafruit.com/product/2245)
 * [Pi Model B+ / Pi 2 / Pi 3 Case Base - Green: $5](https://www.adafruit.com/product/2251)
 * Optional but recommended: [Flex Cable for Raspberry Pi Camera or Display - 300mm / 12": $2](https://www.adafruit.com/product/1648)
+* Optional if you want to record audio: [USB Microphone: $6](https://www.adafruit.com/product/3367)
 
 ### Shopping notes: 
 * Depending on your cage and home setup, you may want to choose a different length of flex cable for the Raspberry Pi camera. Note that the longer your cable, the more likely you are to have degraded picture quality. Shorter cables are better here. It's a tradeoff between ease of mounting and picture quality.
-* Not included: a way to mount the Pi to your cage or fasten the camera to the cage. Get creative!
+* Not included: a way to mount the Pi to your cage or fasten the camera to the cage. I use Scotch mini velcro squares to mount both my Pi and my Camera to the cage and they work very well, but get creative!
+* The USB Microphone I bought didn't fit very well into any of the USB ports I had and I wasn't sure it was in correctly, but it does record audio.
 * For best results and maximum style, choose a Raspberry Pi case color that matches your budgie's coloration
 
 ### How to set up Budgie Cam to run on your Raspberry Pi
@@ -178,5 +180,6 @@ Other considerations
 -----
 1. If your picture comes out upside-down, change the FLIP_CAMERA variable in txt2pi/views.py to True
 2. Budgie Cam also supports videos. Just put "video" in your text message and it will take a 30 second video. Don't forget your BUDGIE_PASSPHRASE!
-3. Having pictures on your phone is nice but you may also want them on your computer. I've included a script that will back up for you, in pix/budgie_backup.py -- you will need to `pip install Pillow` and `pip install requests` for it to work, and if you are using it to back up videos it will download your videos and convert them from h264 to mp4 but this requires special software, [ffmpeg](https://www.ffmpeg.org/).
-4. If you take a lot of photos and/or videos, you may eventually run low on storage space. You may want to create a cron job to delete old photos and/or videos. Alternatively you can delete them manually by logging in to your Raspberry Pi remotely. From another computer, run `ssh pi@192.168.1.xxx` where xxx is the IP address of your Raspberry Pi.
+3. Budgie Cam also supports audio. Just put "audio" in your text message and it will take a 15 second audio. Don't forget your BUDGIE_PASSPHRASE!
+4. Having pictures on your phone is nice but you may also want them on your computer. I've included a script that will back up for you, in pix/budgie_backup.py -- you will need to `pip install Pillow` and `pip install requests` for it to work, and if you are using it to back up videos it will download your videos and convert them from h264 to mp4 but this requires special software, [ffmpeg](https://www.ffmpeg.org/).
+5. If you take a lot of photos and/or videos, you may eventually run low on storage space. You may want to create a cron job to delete old photos and/or videos. Alternatively you can delete them manually by logging in to your Raspberry Pi remotely. From another computer, run `ssh pi@192.168.1.xxx` where xxx is the IP address of your Raspberry Pi.
