@@ -12,7 +12,16 @@ from twilio_credentials import ACCOUNT_SID, AUTH_TOKEN
 class BudgieCamView(TemplateView):
 
     # If your pictures come out upside down, set this to True
-    FLIP_CAMERA = True
+    FLIP_CAMERA_VERTICAL = True
+
+    # If your pictures come out mirrored, set this to True
+    FLIP_CAMERA_HORIZONTAL = False
+
+    # In my experience, the light is often too low for high quality pictures.
+    # Setting this to True can help with that, but the color balance will be adjusted.
+    # Use one of: (False, 'low', 'med', 'high')
+    LOW_LIGHT = 'low'
+    assert LOW_LIGHT in (False, 'low', 'med', 'high')
 
     def get(self, request, **kwargs):
 
@@ -44,10 +53,20 @@ class BudgieCamView(TemplateView):
 
         context = {}
 
-        if self.FLIP_CAMERA:
-            self.FLIP_CAMERA = ['-vf', '-hf']
+        if self.FLIP_CAMERA_VERTICAL:
+            self.FLIP_CAMERA_VERTICAL = ['-vf']
         else:
-            self.FLIP_CAMERA = []
+            self.FLIP_CAMERA_VERTICAL = []
+
+        if self.FLIP_CAMERA_HORIZONTAL:
+            self.FLIP_CAMERA_HORIZONTAL = ['-hf']
+        else:
+            self.FLIP_CAMERA_HORIZONTAL = []
+
+        if self.LOW_LIGHT:
+            self.LOW_LIGHT = ['--drc', self.LOW_LIGHT]
+        else:
+            self.LOW_LIGHT = []
 
         if text_message:
             if BUDGIE_PASSPHRASE in text_message.lower():
@@ -55,7 +74,7 @@ class BudgieCamView(TemplateView):
                     try:
                         budgie_filename = '{0}.h264'.format(''.join(['{0:02d}'.format(x) for x in time.localtime()[:6]]))
                         # raspivid -o video.h264 -t 10000
-                        subprocess.call(['raspivid', '--nopreview', '-t', '30000','-o', '{0}{1}'.format(BUDGIE_FILE_PATH, budgie_filename)] + self.FLIP_CAMERA)
+                        subprocess.call(['raspivid', '--nopreview', '-t', '30000','-o', '{0}{1}'.format(BUDGIE_FILE_PATH, budgie_filename)] + self.FLIP_CAMERA_VERTICAL + self.FLIP_CAMERA_HORIZONTAL + self.LOW_LIGHT)
 
                         # This would convert the h264 video to mp4 but unfortunately it doesn't run quickly enough on the Raspberry Pi
                         # Maybe later versions of the Pi would be able to handle it, but this one can't.
@@ -104,7 +123,7 @@ class BudgieCamView(TemplateView):
                 else:
                     try:
                         budgie_filename = '{0}.jpg'.format(''.join(['{0:02d}'.format(x) for x in time.localtime()[:6]]))
-                        subprocess.call(['raspistill', '--nopreview', '-t', '5000', '-o', "{0}{1}".format(BUDGIE_FILE_PATH, budgie_filename)] + self.FLIP_CAMERA)
+                        subprocess.call(['raspistill', '--nopreview', '-t', '5000', '-o', "{0}{1}".format(BUDGIE_FILE_PATH, budgie_filename)] + self.FLIP_CAMERA_VERTICAL + self.FLIP_CAMERA_HORIZONTAL + self.LOW_LIGHT)
                     except Exception, e:
                         print "[ERROR] Call to raspistill failed; could not take photo ({0}: {1}{2})".format(e, BUDGIE_FILE_PATH, budgie_filename)
                         context['response'] = '500'
